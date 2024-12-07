@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Calorie Teller</title>
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #333;
+            border-radius: 10px;
+            padding: 20px;
+            width: 300px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #4CAF50;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #444;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Food Calorie Teller</h1>
+        <input type="text" id="food" placeholder="Enter food name">
+        <button onclick="getFoodInfo()">Get Info</button>
+        <div id="result" style="display: none;">
+            <h3>Food Information</h3>
+            <p id="calories">No data yet</p>
+        </div>
+    </div>
+    <script>
+        function getFoodInfo() {
+            const food = document.getElementById("food").value.trim().toLowerCase();
+            if (food) {
+                fetch(`/calories?food=${food}`)
+                    .then(response => response.text())
+                    .then(data => {
+                        document.getElementById("calories").innerText = data;
+                        document.getElementById("result").style.display = 'block';
+                    })
+                    .catch(() => {
+                        document.getElementById("calories").innerText = "Error retrieving data.";
+                        document.getElementById("result").style.display = 'block';
+                    });
+            }
+        }
+    </script>
+</body>
+</html>
